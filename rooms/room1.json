@@ -1,0 +1,43 @@
+{
+  "taverne": [
+    {
+      "items": [
+        10,
+        1,
+        5
+      ],
+      "connections": [
+        1,
+        2
+      ],
+      "npcs": [
+        {
+          "name": "Hans",
+          "health": 5,
+          "alter": 21,
+          "interactions": [
+            "Hallo Fremder",
+            "Was geht!"
+          ],
+          "inventory": [
+            55,
+            60
+          ]
+        },
+        {
+          "name": "John",
+          "health": 5,
+          "alter": 2344,
+          "interactions": [
+            "Hallo Fremder",
+            "Was geht!"
+          ],
+          "inventory": [
+            52,
+            61
+          ]
+        }
+      ]
+    }
+  ]
+}
