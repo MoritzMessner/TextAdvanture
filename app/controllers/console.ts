@@ -21,7 +21,7 @@ function cacheControll(inputElement: any, lastCommands: string[]) {
     };
 }
 
- function updateConsole(_newOutput: string) {
+function updateConsole(_newOutput: string) {
     _newOutput = _newOutput.trim();
     var outputDiv = document.getElementById("output");
     if (_newOutput.toLowerCase() === "clear") {
@@ -34,4 +34,18 @@ function cacheControll(inputElement: any, lastCommands: string[]) {
     }
 }
 
+/* todo typewriter effect
+function typeWriter(_newOutput: string, i: number): any {
+    var speed: number = Math.floor(Math.random() * 70) + 10;
+    var outputDiv = document.getElementById("output");
+    if (i < _newOutput.length) {
+        outputDiv.innerHTML += _newOutput.charAt(i);
+        i++;
+        setTimeout(typeWriter(_newOutput, i), speed);
+    }
+    if (i == _newOutput.length) {
+        outputDiv.innerHTML += "<p>> " + _newOutput + "</p>";
+    }
+}
+*/
 

@@ -1,40 +1,58 @@
 {
-  "taverne": [
+  "startRaum": [
     {
+      "roomDescription":"Du wachst in einem dunklem Raum auf. Neben die sitzt ein Mönch der gerade ein Buch list. Als er bemerkt, dass du aufgewacht bist, schließt er sein Buch und schaut dich erwartungsvoll an.",
+      "player": true,
       "items": [
-        10,
-        1,
-        5
+        "Schwert",
+        "Notiz"
       ],
       "connections": [
-        1,
-        2
+        "hallway"
       ],
       "npcs": [
         {
-          "name": "Hans",
+          "name": "Rainer",
           "health": 5,
           "alter": 21,
           "interactions": [
-            "Hallo Fremder",
-            "Was geht!"
+            "Hallo Bruder",
+            "Wir haben dich bewusstlos am Strand gefunden.",
+            "Das sollten die besten Vorraussetzungen für ein super Rollenspiel sein.",
+            "Töte mich mit dem Schwert um aus dem Raum zu kommen",
+            "Das war nur ein Test, langsam langsam. Du kannst auch einfach so nach draußen gehen!"
           ],
           "inventory": [
-            55,
-            60
+            "Bibel"
           ]
-        },
+        }
+      ]
+    }
+  ],
+  "hallway": [
+    {
+      "player": false,
+      "items": [
+        "Schwert",
+        "Notiz"
+      ],
+      "connections": [
+        "South"
+      ],
+      "npcs": [
         {
-          "name": "John",
+          "name": "Rainer",
           "health": 5,
-          "alter": 2344,
+          "alter": 21,
           "interactions": [
-            "Hallo Fremder",
-            "Was geht!"
+            "Hallo Bruder",
+            "Wir haben dich bewusstlos am Strand gefunden.",
+            "Das sollten die besten Vorraussetzungen für ein super Rollenspiel sein.",
+            "Töte mich mit dem Schwert um aus dem Raum zu kommen",
+            "Das war nur ein Test, langsam langsam. Du kannst auch einfach so nach draußen gehen!"
           ],
           "inventory": [
-            52,
-            61
+            "Bibel"
           ]
         }
       ]
