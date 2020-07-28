@@ -1,61 +1,220 @@
 {
-  "startRaum": [
-    {
-      "roomDescription":"Du wachst in einem dunklem Raum auf. Neben die sitzt ein Mönch der gerade ein Buch list. Als er bemerkt, dass du aufgewacht bist, schließt er sein Buch und schaut dich erwartungsvoll an.",
-      "player": true,
-      "items": [
-        "Schwert",
-        "Notiz"
-      ],
-      "connections": [
-        "hallway"
-      ],
-      "npcs": [
-        {
-          "name": "Rainer",
-          "health": 5,
-          "alter": 21,
-          "interactions": [
-            "Hallo Bruder",
-            "Wir haben dich bewusstlos am Strand gefunden.",
-            "Das sollten die besten Vorraussetzungen für ein super Rollenspiel sein.",
-            "Töte mich mit dem Schwert um aus dem Raum zu kommen",
-            "Das war nur ein Test, langsam langsam. Du kannst auch einfach so nach draußen gehen!"
-          ],
-          "inventory": [
-            "Bibel"
-          ]
-        }
-      ]
-    }
-  ],
-  "hallway": [
-    {
-      "player": false,
-      "items": [
-        "Schwert",
-        "Notiz"
-      ],
-      "connections": [
-        "South"
-      ],
-      "npcs": [
-        {
-          "name": "Rainer",
-          "health": 5,
-          "alter": 21,
-          "interactions": [
-            "Hallo Bruder",
-            "Wir haben dich bewusstlos am Strand gefunden.",
-            "Das sollten die besten Vorraussetzungen für ein super Rollenspiel sein.",
-            "Töte mich mit dem Schwert um aus dem Raum zu kommen",
-            "Das war nur ein Test, langsam langsam. Du kannst auch einfach so nach draußen gehen!"
-          ],
-          "inventory": [
-            "Bibel"
-          ]
-        }
-      ]
-    }
-  ]
+  "schlafzimmer": {
+    "roomDescription": "Du wachst in einem dunklem Raum auf. Neben dir sitzt ein Mönch der gerade ein Buch liest. Als er bemerkt, dass du aufgewacht bist, schließt er sein Buch und schaut dich erwartungsvoll an.<br/>Was willst du tun?",
+    "player": true,
+    "items": [
+      {
+        "name": "Schwert",
+        "schaden": 10,
+        "beschreibung": "Ein Altes rostiges Schwert"
+      },
+      {
+        "name": "Notiz",
+        "schaden": 0,
+        "beschreibung": "Ein kleiner Notizzettel "
+      }
+    ],
+    "connections": [
+      "Flur"
+    ],
+    "npcs": [
+      {
+        "name": "Rainer",
+        "beschreibung": "Ein alter Mönch",
+        "health": 5,
+        "alter": 45,
+        "staerke": 7,
+        "interactions": [
+          "Hallo Bruder",
+          "Wir haben dich bewusstlos am Strand gefunden.",
+          "Ich hoffe dir geht es gut.",
+          "Ich hab dich untem am Strand aufgelesen.",
+          "Mein Name ist Rainer",
+          "Willkommen in meinem Zuhause."
+        ],
+        "smart": true,
+        "inventory": [
+          {
+            "name": "Bibel",
+            "schaden": 0,
+            "beschreibung": "Das Buch der Bücher"
+          }
+        ]
+      }
+    ]
+  },
+  "flur": {
+    "roomDescription": "Ein schlicht eingerichteter Flur mit wenig licht<br/>Was willst du tun?",
+    "player": false,
+    "items": [
+      {
+        "name": "Schuhe",
+        "schaden": 1,
+        "beschreibung": "Ein paar alte Schuhe."
+      },
+      {
+        "name": "Jacke",
+        "schaden": 0,
+        "beschreibung": "Eine alte Jacke "
+      }
+    ],
+    "connections": [
+      "Schlafzimmer",
+      "Küche",
+      "Innenhof"
+    ],
+    "npcs": [
+      {
+        "name": "Katze",
+        "beschreibung": "Eine alte Katze",
+        "health": 5,
+        "alter": 7,
+        "staerke": 1,
+        "interactions": [
+          "Mewo",
+          "Mewo Mewo.",
+          "Mewo Mewo Mewo Mewo.",
+          "Faaauuuchhh.",
+          "Mewo Mewo",
+          "..."
+        ],
+        "smart": true,
+        "inventory": [
+          {
+            "name": "Fell",
+            "schaden": 0,
+            "beschreibung": "Ein bündel aus Fell"
+          }
+        ]
+      }
+    ]
+  },
+  "küche": {
+    "roomDescription": "Hier riecht es nach verbranntem Brot. Licht kommt durch ein kleines Fenster in die Küche<br/>Was willst du tun?",
+    "player": false,
+    "items": [
+      {
+        "name": "Brot",
+        "schaden": 0,
+        "beschreibung": "Ein verbranntes Stück Brot."
+      },
+      {
+        "name": "Kochlöffel",
+        "schaden": 1,
+        "beschreibung": "Eine Kochlöffel aus Holz "
+      }
+    ],
+    "connections": [
+      "Flur"
+    ],
+    "npcs": [
+      {
+        "name": "Marta",
+        "beschreibung": "Ein junges Mädchen.",
+        "health": 10,
+        "alter": 14,
+        "staerke": 4,
+        "interactions": [
+          "Hallo Fremder",
+          "Magst du Brot?",
+          "Ich bin Marta",
+          "Sei vorsichtig wenn du nach draußen gehst, hier gibt es viele Monster."
+        ],
+        "smart": false,
+        "inventory": [
+          {
+            "name": "Buch",
+            "schaden": 30,
+            "beschreibung": "Sieht aus wie ein Kochbuch!"
+          }
+        ]
+      }
+    ]
+  },
+  "innenhof": {
+    "roomDescription": "Du bist auf einem großen Innenhof eines alten Bauernhofs. Der Himmel ist Blau. Es ist Sommer.<br/>Was willst du tun?",
+    "player": false,
+    "items": [
+      {
+        "name": "Mistgabel",
+        "schaden": 5,
+        "beschreibung": "Eine Mistgabel"
+      },
+      {
+        "name": "Sack voll Korn",
+        "schaden": 0,
+        "beschreibung": "Ein großer Sack voller Korn"
+      }
+    ],
+    "connections": [
+      "Flur",
+      "Küche"
+    ],
+    "npcs": [
+      {
+        "name": "Huhn",
+        "beschreibung": "Ein kleines Huhn",
+        "health": 1,
+        "alter": 2,
+        "staerke": 1,
+        "interactions": [
+          "Backback",
+          "..."
+        ],
+        "smart": false,
+        "inventory": [
+          {
+            "name": "Ei",
+            "schaden": 0,
+            "beschreibung": "Ein kleines Ei"
+          }
+        ]
+      }
+    ]
+  },
+  "kammer": {
+    "roomDescription": "Du betrittst eine Kammer. Es gibt wenig licht in der Kammer, da es keine Fenster gibt.<br/>Was willst du tun?",
+    "player": false,
+    "items": [
+      {
+        "name": "Schlüssel",
+        "schaden": 1,
+        "beschreibung": "Eine komischer Schlüssel"
+      },
+      {
+        "name": "Sack voll Korn",
+        "schaden": 0,
+        "beschreibung": "Ein großer Sack voller Korn"
+      },
+      {
+        "name": "Messer",
+        "schaden": 0,
+        "beschreibung": "Ein kleines altes Messer"
+      }
+    ],
+    "connections": [
+      "Innenhof"
+    ],
+    "npcs": [
+      {
+        "name": "Maus",
+        "beschreibung": "Eine Maus",
+        "health": 1,
+        "alter": 2,
+        "staerke": 1,
+        "interactions": [
+          "Pip",
+          "..."
+        ],
+        "smart": false,
+        "inventory": [
+          {
+            "name": "Käse",
+            "schaden": 0,
+            "beschreibung": "Ein kleines stück Käse"
+          }
+        ]
+      }
+    ]
+  }
 }

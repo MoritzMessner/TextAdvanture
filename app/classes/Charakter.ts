@@ -1,6 +1,6 @@
 abstract class Character{
     health: number;
-    inventory: string[] = [];
+    inventory: object[] = [];
     strength: number;
     gold: number;
 }

@@ -2,12 +2,13 @@
 var lastCommands: string[] = [];
 var inputElement: any;
 
-document.addEventListener("DOMContentLoaded", () => {
+
+
+document.addEventListener("DOMContentLoaded", async () => {
 
     let scene = new Scene();
+    await scene.load("./../rooms/room1.json");
     var player = new Player(scene);
-    player.inventory = ["Schwert", "Schild", "Stift"];
-
     inputElement = document.getElementById("playerConsole");
     inputElement.addEventListener("keyup", function (event: KeyboardEvent) {
         if (event.keyCode === 13) {
@@ -19,13 +20,10 @@ document.addEventListener("DOMContentLoaded", () => {
         }
     });
 
-   
-    
+
 
     var el = document.getElementsByClassName("hide")[0];
     el.classList.add('show');
     el.classList.remove('hide');
-
-
 
 });

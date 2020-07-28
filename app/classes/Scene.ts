@@ -1,56 +1,145 @@
 
 
 class Scene {
-    private items: string[] = [];
+    private items: object[] = [];
     private connections: string[] = [];
     private npcs: object[] = [];
-    private activeScene: any;
+    private roomName: string = "";
     private json: any; // Any muss noch raus
+    private roomDescription: string = "";
+    private roomCache: object | string = [];
 
 
     constructor() {
-        //this.json = JSON.parse('{"startRaum": {"player": true,"items": ["Schwert","Notiz"],"connections": ["South"],"npcs": [{"name": "Rainer","health": 5,"alter": 21,"interactions": ["Hallo Bruder","Wir haben dich bewusstlos am Strand gefunden.","Das sollten die besten Vorraussetzungen für ein super Rollenspiel sein.","Töte mich mit dem Schwert um aus dem Raum zu kommen","Das war nur ein Test, langsam langsam. Du kannst auch einfach so nach draußen gehen!"],"inventory": ["Bibel"]}]}} '); //this.getJson(_pathToJson);
-        this.json = this.load("../rooms/room1.json");
 
-        console.log(this.json);
+    }
+
+    public getNpcs(): object[] {
+        return this.npcs;
+    }
+
+    public killNpc(_name: string): void {
+        let counter: number = 0;
+        for (let element of this.getNpcs()) {
+            if (element.name.toLowerCase() == _name) {
+                this.npcs.splice(counter, 1);
+
+            }
+            counter++;
+        }
+    }
+
+    public getConnections(): string[] {
+        return this.connections;
     }
 
 
-    private async load(_filename: string): Promise<Object> {
+    public getRoomDescrtiption(): string {
+        return this.roomDescription;
+    }
+
+    public getItems(): object[] {
+        return this.items;
+    }
+
+    public addItem(_item: object): void {
+        this.items.push(_item);
+    }
+
+    public removeItem(_itemToRemove: object): void {
+        let counter: number = 0;
+        for (let element of this.getItems()) {
+            if (element.name.toLowerCase() == _itemToRemove) {
+                this.items.splice(counter, 1);
+
+            }
+            counter++;
+        }
+    }
+
+
+    public async load(_filename: string): Promise<void> {
         let response: Response = await fetch(_filename);
         let text: string = await response.text();
         let json: Object = JSON.parse(text);
-        return json;
+        this.json = json;
+        this.setActiveRoom("schlafzimmer");
+    }
+
+    private npcChangeRoom(): void {
+        let counter: number = 0;
+        for (let element of this.getNpcs()) {
+            if (element.smart === true) {
+                var randRoom: string = this.connections[Math.floor(Math.random() * this.connections.length)];
+                this.roomCache[randRoom.toLocaleLowerCase()].npcs.push(element);
+                this.npcs.splice(counter, 1);
+
+            }
+            counter++;
+        }
     }
 
 
 
     public setActiveRoom(_roomName: string): void {
-        for (let element in this.json) {
-            console.log(element);
-            if (element === _roomName) {
-                this.activeScene = this.json[_roomName];
-                console.log(this.json[_roomName]);
-                for (let property in this.json[_roomName]) {
-                    switch (property) {
-                        case "items":
-                            for (let item of this.json[_roomName][property]) {
-                                this.items.push(item);
-                            }
-                            break;
 
-                        case "connections":
-                            for (let connection of this.json[_roomName][property]) {
-                                this.connections.push(connection);
-                            }
-                            break;
 
-                        case "npcs":
-                            for (let npc of this.json[_roomName][property]) {
-                                this.connections.push(npc);
-                            }
-                            break;
+        if (this.roomCache[_roomName.toLocaleLowerCase()] !== undefined) {
+            this.npcChangeRoom();
+            this.items = this.roomCache[_roomName].items;
+            this.connections = this.roomCache[_roomName].connections;
+            this.npcs = this.roomCache[_roomName].npcs;
+            this.roomName = this.roomCache[_roomName].roomName;
+            this.json = this.roomCache[_roomName].json;
+            this.roomDescription = this.roomCache[_roomName].roomDescription;
+            this.roomCache = this.roomCache[_roomName].roomCache;
+            updateConsole(this.getRoomDescrtiption());
+
+        } else {
+
+            for (let element in this.json) {
+                if (element === _roomName) {
+                    this.roomName = this.json[_roomName];
+                    for (let property in this.json[_roomName]) {
+                        //todo reset class properties
+                        switch (property) {
+                            case "items":
+                                //Todo implement Item object
+                                this.items = [];
+                                for (let item of this.json[_roomName][property]) {
+                                    this.items.push(item);
+                                }
+                                break;
+
+                            case "connections":
+                                this.connections = [];
+                                for (let connection of this.json[_roomName][property]) {
+                                    this.connections.push(connection);
+                                }
+                                break;
+
+                            case "npcs":
+                                this.npcs = [];
+                                for (let npc of this.json[_roomName][property]) {
+                                    this.npcs.push(npc);
+                                }
+                                break;
+
+                            case "roomDescription":
+                                this.roomDescription = this.json[_roomName][property];
+                                updateConsole(this.getRoomDescrtiption());
+                                break;
+                        }
                     }
+                    var obj = {};
+                    obj["items"] = this.items;
+                    obj["connections"] = this.connections;
+                    obj["npcs"] = this.npcs;
+                    obj["roomName"] = this.roomName;
+                    obj["json"] = this.json;
+                    obj["roomDescription"] = this.roomDescription;
+                    obj["roomCache"] = this.roomCache;
+                    this.roomCache[_roomName] = obj;
                 }
             }
         }
@@ -63,19 +152,6 @@ class Scene {
         }
     }
 
-    private async getJson(_pathToJson: string): any {
-        let content: any = await this.load(_pathToJson);
-        return content;
 
-    }
-
-    /* private async load(_filename: string): any {
-         // let response: Response = await fetch(_filename);
-         let response = '{"startRaum": {"player": true,"items": ["Schwert","Notiz"],"connections": ["South"],"npcs": [{"name": "Rainer","health": 5,"alter": 21,"interactions": ["Hallo Bruder","Wir haben dich bewusstlos am Strand gefunden.","Das sollten die besten Vorraussetzungen für ein super Rollenspiel sein.","Töte mich mit dem Schwert um aus dem Raum zu kommen","Das war nur ein Test, langsam langsam. Du kannst auch einfach so nach draußen gehen!"],"inventory": ["Bibel"]}]}} ';
-         //let text: string = await response.text();
-         let json: any = JSON.parse(response);
-         // alternative: json = await response.json();
-         return (json);
-     }*/
 
 }

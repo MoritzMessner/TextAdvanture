@@ -26,10 +26,13 @@ function updateConsole(_newOutput) {
         outputDiv.innerHTML = "";
     }
     else {
-        outputDiv.innerHTML += "<p>> " + _newOutput + "</p>";
+        outputDiv.innerHTML += "<p class='hide'>> " + _newOutput + "</p>";
         //ScrollBar nach immer nach ganz unten
         var objDiv = document.getElementById("output");
         objDiv.scrollTop = objDiv.scrollHeight;
+        var el = document.getElementsByClassName("hide")[0];
+        el.classList.add('show');
+        el.classList.remove('hide');
     }
 }
 /* todo typewriter effect

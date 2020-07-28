@@ -1,10 +1,10 @@
 "use strict";
 var lastCommands = [];
 var inputElement;
-document.addEventListener("DOMContentLoaded", () => {
+document.addEventListener("DOMContentLoaded", async () => {
     let scene = new Scene();
+    await scene.load("./../rooms/room1.json");
     var player = new Player(scene);
-    player.inventory = ["Schwert", "Schild", "Stift"];
     inputElement = document.getElementById("playerConsole");
     inputElement.addEventListener("keyup", function (event) {
         if (event.keyCode === 13) {
