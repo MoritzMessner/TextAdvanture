@@ -148,7 +148,8 @@
     ],
     "connections": [
       "Flur",
-      "Küche"
+      "Küche",
+      "Kammer"
     ],
     "npcs": [
       {

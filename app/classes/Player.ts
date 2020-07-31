@@ -1,6 +1,6 @@
 class Player extends Character {
 
-    private activeScene: any; // gotta change any
+    private activeScene: object; // gotta change any
 
     constructor(_room: object) {
         super();
@@ -9,19 +9,18 @@ class Player extends Character {
         this.strength = 5;
     }
 
-    public listRoom() {
-        //updateConsole(this.activeScene.getRoomDescrtiption());
+    private listRoom() {
         updateConsole("Ich sehe:");
-        updateConsole("Gegenstände");
+        updateConsole("<span style='color:yellow'>Gegenstände</span>");
         for (let element of this.activeScene.getItems()) {
             updateConsole("Name: " + element.name);
         }
-        updateConsole("");
-        updateConsole("Personen oder Monster");
+
+        updateConsole("<span style='color:yellow'>Personen oder Monster</span>");
         for (let element of this.activeScene.getNpcs()) {
             updateConsole("Name: " + element.name);
         }
-        updateConsole("Ausgänge");
+        updateConsole("<span style='color:yellow'>Ausgänge</span>");
         for (let element of this.activeScene.getConnections()) {
             updateConsole("Einen Ausgang nach " + element);
         }
@@ -32,7 +31,7 @@ class Player extends Character {
         updateConsole("cIear");
         updateConsole("commands(c)");
         updateConsole("description(d)");
-        updateConsole("drop(d) {object}");
+        updateConsole("drop(dr) {object}");
         updateConsole("inventory(i)");
         updateConsole("look(l) ?{object}");
         updateConsole("take(t) {object}");
@@ -49,71 +48,59 @@ class Player extends Character {
             _userMessage = _userMessage.trim().toLowerCase();
         }
         updateConsole("<span style='color:#ff4040'>" + _userMessage + " " + parameterMessage + "</span>");
+        this.switchUserInput(_userMessage, parameterMessage);
+    }
+
+    private switchUserInput(_userMessage: string, _parameterMessage: string = ""): void {
         switch (_userMessage) {
             case "l":
             case "look":
-                if (parameterMessage.trim() === "")
+                if (_parameterMessage.trim() === "")
                     this.listRoom();
                 else
-                    this.lookAT(parameterMessage);
+                    this.lookAT(_parameterMessage);
                 break;
-
             case "clear":
                 updateConsole(_userMessage);
                 break;
-
             case "c":
             case "commands":
                 this.listCommands();
                 break;
-
             case "d":
             case "description":
                 updateConsole(this.activeScene.getRoomDescrtiption());
                 break;
-
-
             case "i":
             case "inventory":
                 this.showBackpack();
                 break;
-
-            case "d":
+            case "dr":
             case "drop":
-                this.dropItem(parameterMessage);
+                this.dropItem(_parameterMessage);
                 break;
-
             case "t":
             case "take":
-                this.take(parameterMessage);
+                this.take(_parameterMessage);
                 break;
-
             case "talk":
-                this.talkTo(parameterMessage);
+                this.talkTo(_parameterMessage);
                 break;
-
             case "w":
             case "walk":
-                this.walk(parameterMessage);
+                this.walk(_parameterMessage);
                 break;
             case "a":
             case "attack":
-                this.attack(parameterMessage);
+                this.attack(_parameterMessage);
                 break;
-
-
             default:
                 updateConsole(_userMessage + " verstehe ich nicht!");
 
         }
     }
 
-    /**
-     * showBackpack
-     * lists all items in user backpack
-     */
-
-    public showBackpack() {
+    private showBackpack() {
         updateConsole("In meinem Inventar ist:")
         for (let element of this.inventory) {
             updateConsole("Name: " + element.name);
@@ -122,8 +109,15 @@ class Player extends Character {
         }
     }
 
+    private checkPlayerHealth(): void {
+        if (this.health <= 0) {
+            updateConsole("Du wurdest getötet");
+            location.reload();
+        }
+    }
 
-    public attack(_npc: string): void {
+
+    private attack(_npc: string): void {
         let checkFlag: boolean = false;
         for (let element of this.activeScene.getNpcs()) {
             if (element.name.toLowerCase() == _npc.toLowerCase()) {
@@ -135,20 +129,14 @@ class Player extends Character {
                     this.health += diff;
                     updateConsole(_npc.toLocaleUpperCase() + " hat dir " + diff * (-1) + " Schaden hinzugefügt");
                 }
-
                 if (element.health <= 0) {
                     for (let item of element.inventory) {
                         this.activeScene.addItem(item);
                     }
                     this.activeScene.killNpc(_npc);
                     updateConsole(_npc + " wurde getötet");
-
                 }
-
-                if (this.health <= 0) {
-                    updateConsole("Du wurdest getötet");
-                    location.reload();
-                }
+                this.checkPlayerHealth();
                 checkFlag = true;
             }
         }
@@ -156,11 +144,7 @@ class Player extends Character {
             updateConsole(_npc + " sehe ich hier leider nicht");
     }
 
-    /**
-     * take
-     * method to add an item to the inventory
-     */
-    public take(_item: string): void {
+    private take(_item: string): void {
         //todo check if items is in room
         let checkFlag: boolean = false;
         for (let element of this.activeScene.getItems()) {
@@ -180,13 +164,7 @@ class Player extends Character {
 
     }
 
-
-
-    /**
-     * talkTo
-       talks to an npc and outpputs a random phrase    
-    **/
-    public talkTo(_npc: string): void {
+    private talkTo(_npc: string): void {
         let checkFlag: boolean = false;
         for (let element of this.activeScene.getNpcs()) {
             if (element.name.toLowerCase() == _npc.toLowerCase()) {
@@ -199,12 +177,7 @@ class Player extends Character {
 
     }
 
-
-    /**
-     * walk
-       changes active scene to a new one    
-    **/
-    public walk(_direction: string): void {
+    private walk(_direction: string): void {
         let checkFlag: boolean = false;
         for (let connection of this.activeScene.getConnections()) {
             if (connection.toLowerCase() == _direction.toLowerCase()) {
@@ -217,11 +190,8 @@ class Player extends Character {
     }
 
 
-    /**
-     * lookAT
-     *  outputs a random string about the desired object     
-    **/
-    public lookAT(_objectToLookAt: string) {
+
+    private lookAT(_objectToLookAt: string) {
         let checkFlag: boolean = false;
         for (let element of this.activeScene.getItems()) {
             if (element.name.toLowerCase() == _objectToLookAt.toLocaleLowerCase()) {
@@ -238,7 +208,6 @@ class Player extends Character {
                     updateConsole("Leben: " + element.health);
                     updateConsole("Stärke: " + element.staerke);
                     checkFlag = true;
-
                 }
             }
         }
@@ -246,7 +215,7 @@ class Player extends Character {
             updateConsole(_objectToLookAt + " sehe ich hier leider nicht");
     }
 
-    public dropItem(_itemToDrop: string): void {
+    private dropItem(_itemToDrop: string): void {
         _itemToDrop = _itemToDrop.trim();
         let checkFlag: boolean = false;
         let counter: number = 0;

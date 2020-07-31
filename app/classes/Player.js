@@ -7,18 +7,16 @@ class Player extends Character {
         this.strength = 5;
     }
     listRoom() {
-        //updateConsole(this.activeScene.getRoomDescrtiption());
         updateConsole("Ich sehe:");
-        updateConsole("Gegenstände");
+        updateConsole("<span style='color:yellow'>Gegenstände</span>");
         for (let element of this.activeScene.getItems()) {
             updateConsole("Name: " + element.name);
         }
-        updateConsole("");
-        updateConsole("Personen oder Monster");
+        updateConsole("<span style='color:yellow'>Personen oder Monster</span>");
         for (let element of this.activeScene.getNpcs()) {
             updateConsole("Name: " + element.name);
         }
-        updateConsole("Ausgänge");
+        updateConsole("<span style='color:yellow'>Ausgänge</span>");
         for (let element of this.activeScene.getConnections()) {
             updateConsole("Einen Ausgang nach " + element);
         }
@@ -28,7 +26,7 @@ class Player extends Character {
         updateConsole("cIear");
         updateConsole("commands(c)");
         updateConsole("description(d)");
-        updateConsole("drop(d) {object}");
+        updateConsole("drop(dr) {object}");
         updateConsole("inventory(i)");
         updateConsole("look(l) ?{object}");
         updateConsole("take(t) {object}");
@@ -44,13 +42,16 @@ class Player extends Character {
             _userMessage = _userMessage.trim().toLowerCase();
         }
         updateConsole("<span style='color:#ff4040'>" + _userMessage + " " + parameterMessage + "</span>");
+        this.switchUserInput(_userMessage, parameterMessage);
+    }
+    switchUserInput(_userMessage, _parameterMessage = "") {
         switch (_userMessage) {
             case "l":
             case "look":
-                if (parameterMessage.trim() === "")
+                if (_parameterMessage.trim() === "")
                     this.listRoom();
                 else
-                    this.lookAT(parameterMessage);
+                    this.lookAT(_parameterMessage);
                 break;
             case "clear":
                 updateConsole(_userMessage);
@@ -67,39 +68,41 @@ class Player extends Character {
             case "inventory":
                 this.showBackpack();
                 break;
-            case "d":
+            case "dr":
             case "drop":
-                this.dropItem(parameterMessage);
+                this.dropItem(_parameterMessage);
                 break;
             case "t":
             case "take":
-                this.take(parameterMessage);
+                this.take(_parameterMessage);
                 break;
             case "talk":
-                this.talkTo(parameterMessage);
+                this.talkTo(_parameterMessage);
                 break;
             case "w":
             case "walk":
-                this.walk(parameterMessage);
+                this.walk(_parameterMessage);
                 break;
             case "a":
             case "attack":
-                this.attack(parameterMessage);
+                this.attack(_parameterMessage);
                 break;
             default:
                 updateConsole(_userMessage + " verstehe ich nicht!");
         }
     }
-    /**
-     * showBackpack
-     * lists all items in user backpack
-     */
     showBackpack() {
         updateConsole("In meinem Inventar ist:");
         for (let element of this.inventory) {
             updateConsole("Name: " + element.name);
             updateConsole("Schaden: " + element.schaden);
             updateConsole("Beschreibung: " + element.beschreibung);
+        }
+    }
+    checkPlayerHealth() {
+        if (this.health <= 0) {
+            updateConsole("Du wurdest getötet");
+            location.reload();
         }
     }
     attack(_npc) {
@@ -122,20 +125,13 @@ class Player extends Character {
                     this.activeScene.killNpc(_npc);
                     updateConsole(_npc + " wurde getötet");
                 }
-                if (this.health <= 0) {
-                    updateConsole("Du wurdest getötet");
-                    location.reload();
-                }
+                this.checkPlayerHealth();
                 checkFlag = true;
             }
         }
         if (!checkFlag)
             updateConsole(_npc + " sehe ich hier leider nicht");
     }
-    /**
-     * take
-     * method to add an item to the inventory
-     */
     take(_item) {
         //todo check if items is in room
         let checkFlag = false;
@@ -153,10 +149,6 @@ class Player extends Character {
         else
             updateConsole(_item + " aufgehoben");
     }
-    /**
-     * talkTo
-       talks to an npc and outpputs a random phrase
-    **/
     talkTo(_npc) {
         let checkFlag = false;
         for (let element of this.activeScene.getNpcs()) {
@@ -168,10 +160,6 @@ class Player extends Character {
         if (!checkFlag)
             updateConsole(_npc + " sehe ich hier leider nicht");
     }
-    /**
-     * walk
-       changes active scene to a new one
-    **/
     walk(_direction) {
         let checkFlag = false;
         for (let connection of this.activeScene.getConnections()) {
@@ -183,10 +171,6 @@ class Player extends Character {
         if (!checkFlag)
             updateConsole(_direction + " sehe ich hier leider nicht");
     }
-    /**
-     * lookAT
-     *  outputs a random string about the desired object
-    **/
     lookAT(_objectToLookAt) {
         let checkFlag = false;
         for (let element of this.activeScene.getItems()) {

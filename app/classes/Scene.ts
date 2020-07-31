@@ -7,7 +7,7 @@ class Scene {
     private roomName: string = "";
     private json: any; // Any muss noch raus
     private roomDescription: string = "";
-    private roomCache: object | string = [];
+    private roomCache: object = [];
 
 
     constructor() {
