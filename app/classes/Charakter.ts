@@ -1,6 +1,6 @@
-abstract class Character{
-    health: number;
-    inventory: object[] = [];
-    strength: number;
-    gold: number;
+abstract class Character {
+    public health: number;
+    public inventory: Item[] = [];
+    public staerke: number;
+    public gold: number;
 }

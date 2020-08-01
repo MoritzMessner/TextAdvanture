@@ -6,9 +6,7 @@ var inputElement: any;
 
 document.addEventListener("DOMContentLoaded", async () => {
 
-    let scene = new Scene();
-    await scene.load("./../rooms/room1.json");
-    var player = new Player(scene);
+    var player = new Player();
     inputElement = document.getElementById("playerConsole");
     inputElement.addEventListener("keyup", function (event: KeyboardEvent) {
         if (event.keyCode === 13) {

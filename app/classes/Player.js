@@ -1,10 +1,11 @@
 "use strict";
 class Player extends Character {
-    constructor(_room) {
+    constructor() {
         super();
-        this.activeScene = _room;
+        this.activeScene = new Scene;
+        this.activeScene.load("./../rooms/room1.json");
         this.health = 15;
-        this.strength = 5;
+        this.staerke = 5;
     }
     listRoom() {
         updateConsole("Ich sehe:");
@@ -109,7 +110,7 @@ class Player extends Character {
         let checkFlag = false;
         for (let element of this.activeScene.getNpcs()) {
             if (element.name.toLowerCase() == _npc.toLowerCase()) {
-                let diff = this.strength - element.staerke;
+                let diff = this.staerke - element.staerke;
                 if (diff >= 0) {
                     element.health -= diff;
                     updateConsole("Du hast " + _npc + " " + diff + " Schaden hinzugefügt");
@@ -120,7 +121,7 @@ class Player extends Character {
                 }
                 if (element.health <= 0) {
                     for (let item of element.inventory) {
-                        this.activeScene.addItem(item);
+                        this.activeScene.addItem(new Item(item.name, item.schaden, item.beschreibung));
                     }
                     this.activeScene.killNpc(_npc);
                     updateConsole(_npc + " wurde getötet");
@@ -139,7 +140,7 @@ class Player extends Character {
             if (element.name.toLowerCase() == _item.toLowerCase()) {
                 checkFlag = true;
                 updateConsole("Du hast " + element.schaden + " Stärke hinzubekommen");
-                this.strength += element.schaden;
+                this.staerke += element.schaden;
                 this.inventory.push(element);
                 this.activeScene.removeItem(_item);
             }
@@ -200,9 +201,9 @@ class Player extends Character {
         let counter = 0;
         for (let element of this.inventory) {
             if (element.name.toLowerCase() == _itemToDrop.toLocaleLowerCase()) {
-                this.strength -= element.schaden;
+                this.staerke -= element.schaden;
                 updateConsole("Du hast " + element.schaden + " Stärke verloren");
-                this.activeScene.addItem(element);
+                this.activeScene.addItem((new Item(element.name, element.schaden, element.beschreibung)));
                 this.inventory.splice(counter, 1);
                 checkFlag = true;
             }
