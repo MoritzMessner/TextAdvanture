@@ -3,56 +3,9 @@ class Scene {
     private connections: string[] = [];
     private npcs: NPC[] = [];
     private roomName: string = "";
-    private json: any; // Any muss noch raus
+    private json: Object;
     private roomDescription: string = "";
     private roomCache: { [key: string]: Scene; } = {};
-
-    constructor() {
-    }
-
-    public getNpcs(): NPC[] {
-        return this.npcs;
-    }
-
-    public killNpc(_name: string): void {
-        let counter: number = 0;
-        for (let element of this.getNpcs()) {
-            if (element.name.toLowerCase() == _name) {
-                this.npcs.splice(counter, 1);
-
-            }
-            counter++;
-        }
-    }
-
-    public getConnections(): string[] {
-        return this.connections;
-    }
-
-
-    public getRoomDescrtiption(): string {
-        return this.roomDescription;
-    }
-
-    public getItems(): Item[] {
-        return this.items;
-    }
-
-    public addItem(_item: Item): void {
-        this.items.push(_item);
-    }
-
-    public removeItem(_itemToRemove: string): void {
-        let counter: number = 0;
-        for (let element of this.getItems()) {
-            if (element.name.toLowerCase() == _itemToRemove) {
-                this.items.splice(counter, 1);
-
-            }
-            counter++;
-        }
-    }
-
 
     public async load(_filename: string): Promise<void> {
         let response: Response = await fetch(_filename);
@@ -61,23 +14,6 @@ class Scene {
         this.json = json;
         this.setActiveRoom("schlafzimmer");
     }
-
-    private npcChangeRoom(): void {
-        let counter: number = 0;
-        for (let element of this.getNpcs()) {
-            if (element.smart === true) {
-                var randRoom: string = this.connections[Math.floor(Math.random() * this.connections.length)];
-                if (this.roomCache[randRoom.toLocaleLowerCase()] !== undefined) {
-                    this.roomCache[randRoom.toLocaleLowerCase()].npcs.push(element);
-                    this.npcs.splice(counter, 1);
-                }
-
-            }
-            counter++;
-        }
-    }
-
-
 
     public setActiveRoom(_roomName: string): void {
         if (this.roomCache[_roomName.toLocaleLowerCase()] !== undefined) {
@@ -143,6 +79,66 @@ class Scene {
         obj["roomDescription"] = this.roomDescription;
         obj["roomCache"] = this.roomCache;
         this.roomCache[_roomName] = obj;
+    }
+
+
+
+    private npcChangeRoom(): void {
+        let counter: number = 0;
+        for (let element of this.getNpcs()) {
+            if (element.smart === true) {
+                var randRoom: string = this.connections[Math.floor(Math.random() * this.connections.length)];
+                if (this.roomCache[randRoom.toLocaleLowerCase()] !== undefined) {
+                    this.roomCache[randRoom.toLocaleLowerCase()].npcs.push(element);
+                    this.npcs.splice(counter, 1);
+                }
+
+            }
+            counter++;
+        }
+    }
+
+    public removeItem(_itemToRemove: string): void {
+        let counter: number = 0;
+        for (let element of this.getItems()) {
+            if (element.name.toLowerCase() == _itemToRemove) {
+                this.items.splice(counter, 1);
+
+            }
+            counter++;
+        }
+    }
+
+    public killNpc(_name: string): void {
+        let counter: number = 0;
+        for (let element of this.getNpcs()) {
+            if (element.name.toLowerCase() == _name) {
+                this.npcs.splice(counter, 1);
+
+            }
+            counter++;
+        }
+    }
+
+    public getNpcs(): NPC[] {
+        return this.npcs;
+    }
+
+    public getConnections(): string[] {
+        return this.connections;
+    }
+
+
+    public getRoomDescrtiption(): string {
+        return this.roomDescription;
+    }
+
+    public getItems(): Item[] {
+        return this.items;
+    }
+
+    public addItem(_item: Item): void {
+        this.items.push(_item);
     }
 }
 

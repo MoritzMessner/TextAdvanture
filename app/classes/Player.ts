@@ -1,6 +1,6 @@
 class Player extends Character {
 
-    private activeScene: Scene; // gotta change any
+    private activeScene: Scene; 
 
     constructor() {
         super();
@@ -10,35 +10,7 @@ class Player extends Character {
         this.staerke = 5;
     }
 
-    private listRoom() {
-        updateConsole("Ich sehe:");
-        updateConsole("<span style='color:yellow'>Gegenstände</span>");
-        for (let element of this.activeScene.getItems()) {
-            updateConsole("Name: " + element.name);
-        }
-
-        updateConsole("<span style='color:yellow'>Personen oder Monster</span>");
-        for (let element of this.activeScene.getNpcs()) {
-            updateConsole("Name: " + element.name);
-        }
-        updateConsole("<span style='color:yellow'>Ausgänge</span>");
-        for (let element of this.activeScene.getConnections()) {
-            updateConsole("Einen Ausgang nach " + element);
-        }
-    }
-
-    private listCommands(): void {
-        updateConsole("attack(a) {who}");
-        updateConsole("cIear");
-        updateConsole("commands(c)");
-        updateConsole("description(d)");
-        updateConsole("drop(dr) {object}");
-        updateConsole("inventory(i)");
-        updateConsole("look(l) ?{object}");
-        updateConsole("take(t) {object}");
-        updateConsole("talk {who}");
-        updateConsole("walk(w) {where}");
-    }
+ 
 
     public prepareToupdateConsole(_userMessage: string): void {
         var parameterMessage = "";
@@ -98,6 +70,36 @@ class Player extends Character {
             default:
                 updateConsole(_userMessage + " verstehe ich nicht!");
         }
+    }
+
+    private listRoom() {
+        updateConsole("Ich sehe:");
+        updateConsole("<span style='color:yellow'>Gegenstände</span>");
+        for (let element of this.activeScene.getItems()) {
+            updateConsole("Name: " + element.name);
+        }
+
+        updateConsole("<span style='color:yellow'>Personen oder Monster</span>");
+        for (let element of this.activeScene.getNpcs()) {
+            updateConsole("Name: " + element.name);
+        }
+        updateConsole("<span style='color:yellow'>Ausgänge</span>");
+        for (let element of this.activeScene.getConnections()) {
+            updateConsole("Einen Ausgang nach " + element);
+        }
+    }
+
+    private listCommands(): void {
+        updateConsole("attack(a) {who}");
+        updateConsole("cIear");
+        updateConsole("commands(c)");
+        updateConsole("description(d)");
+        updateConsole("drop(dr) {object}");
+        updateConsole("inventory(i)");
+        updateConsole("look(l) ?{object}");
+        updateConsole("take(t) {object}");
+        updateConsole("talk {who}");
+        updateConsole("walk(w) {where}");
     }
 
     private showBackpack(): void {
