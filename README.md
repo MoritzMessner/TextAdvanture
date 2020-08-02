@@ -1,5 +1,6 @@
 # TextAdventure  
-Zum Ausführen, bitte in VS Code öffnen und einen Live Server starten (./display/index.html).  
+Zum Ausführen, bitte in VS Code öffnen und einen Live Server starten (./display/index.html)    
+oder https://moritzmessner.github.io/TextAdventure/display/ hier live spielen
 
 # Commands  
 -attack(a) {who}  
