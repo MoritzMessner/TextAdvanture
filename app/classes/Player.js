@@ -7,33 +7,6 @@ class Player extends Character {
         this.health = 15;
         this.staerke = 5;
     }
-    listRoom() {
-        updateConsole("Ich sehe:");
-        updateConsole("<span style='color:yellow'>Gegenstände</span>");
-        for (let element of this.activeScene.getItems()) {
-            updateConsole("Name: " + element.name);
-        }
-        updateConsole("<span style='color:yellow'>Personen oder Monster</span>");
-        for (let element of this.activeScene.getNpcs()) {
-            updateConsole("Name: " + element.name);
-        }
-        updateConsole("<span style='color:yellow'>Ausgänge</span>");
-        for (let element of this.activeScene.getConnections()) {
-            updateConsole("Einen Ausgang nach " + element);
-        }
-    }
-    listCommands() {
-        updateConsole("attack(a) {who}");
-        updateConsole("cIear");
-        updateConsole("commands(c)");
-        updateConsole("description(d)");
-        updateConsole("drop(dr) {object}");
-        updateConsole("inventory(i)");
-        updateConsole("look(l) ?{object}");
-        updateConsole("take(t) {object}");
-        updateConsole("talk {who}");
-        updateConsole("walk(w) {where}");
-    }
     prepareToupdateConsole(_userMessage) {
         var parameterMessage = "";
         if (_userMessage.replace(/\s+/g, ' ').split(" ").length > 1) {
@@ -46,7 +19,7 @@ class Player extends Character {
         this.switchUserInput(_userMessage, parameterMessage);
     }
     switchUserInput(_userMessage, _parameterMessage = "") {
-        switch (_userMessage) {
+        switch (_userMessage.toLocaleLowerCase()) {
             case "l":
             case "look":
                 if (_parameterMessage.trim() === "")
@@ -91,6 +64,33 @@ class Player extends Character {
             default:
                 updateConsole(_userMessage + " verstehe ich nicht!");
         }
+    }
+    listRoom() {
+        updateConsole("Ich sehe:");
+        updateConsole("<span style='color:yellow'>Gegenstände</span>");
+        for (let element of this.activeScene.getItems()) {
+            updateConsole("Name: " + element.name);
+        }
+        updateConsole("<span style='color:yellow'>Personen oder Monster</span>");
+        for (let element of this.activeScene.getNpcs()) {
+            updateConsole("Name: " + element.name);
+        }
+        updateConsole("<span style='color:yellow'>Ausgänge</span>");
+        for (let element of this.activeScene.getConnections()) {
+            updateConsole("Einen Ausgang nach " + element);
+        }
+    }
+    listCommands() {
+        updateConsole("attack(a) {who}");
+        updateConsole("cIear");
+        updateConsole("commands(c)");
+        updateConsole("description(d)");
+        updateConsole("drop(dr) {object}");
+        updateConsole("inventory(i)");
+        updateConsole("look(l) ?{object}");
+        updateConsole("take(t) {object}");
+        updateConsole("talk {who}");
+        updateConsole("walk(w) {where}");
     }
     showBackpack() {
         updateConsole("In meinem Inventar ist:");

@@ -25,7 +25,7 @@ class Player extends Character {
     }
 
     private switchUserInput(_userMessage: string, _parameterMessage: string = ""): void {
-        switch (_userMessage) {
+        switch (_userMessage.toLocaleLowerCase()) {
             case "l":
             case "look":
                 if (_parameterMessage.trim() === "")

@@ -8,58 +8,12 @@ class Scene {
         this.roomDescription = "";
         this.roomCache = {};
     }
-    getNpcs() {
-        return this.npcs;
-    }
-    killNpc(_name) {
-        let counter = 0;
-        for (let element of this.getNpcs()) {
-            if (element.name.toLowerCase() == _name) {
-                this.npcs.splice(counter, 1);
-            }
-            counter++;
-        }
-    }
-    getConnections() {
-        return this.connections;
-    }
-    getRoomDescrtiption() {
-        return this.roomDescription;
-    }
-    getItems() {
-        return this.items;
-    }
-    addItem(_item) {
-        this.items.push(_item);
-    }
-    removeItem(_itemToRemove) {
-        let counter = 0;
-        for (let element of this.getItems()) {
-            if (element.name.toLowerCase() == _itemToRemove) {
-                this.items.splice(counter, 1);
-            }
-            counter++;
-        }
-    }
     async load(_filename) {
         let response = await fetch(_filename);
         let text = await response.text();
         let json = JSON.parse(text);
         this.json = json;
         this.setActiveRoom("schlafzimmer");
-    }
-    npcChangeRoom() {
-        let counter = 0;
-        for (let element of this.getNpcs()) {
-            if (element.smart === true) {
-                var randRoom = this.connections[Math.floor(Math.random() * this.connections.length)];
-                if (this.roomCache[randRoom.toLocaleLowerCase()] !== undefined) {
-                    this.roomCache[randRoom.toLocaleLowerCase()].npcs.push(element);
-                    this.npcs.splice(counter, 1);
-                }
-            }
-            counter++;
-        }
     }
     setActiveRoom(_roomName) {
         if (this.roomCache[_roomName.toLocaleLowerCase()] !== undefined) {
@@ -122,6 +76,52 @@ class Scene {
         obj["roomDescription"] = this.roomDescription;
         obj["roomCache"] = this.roomCache;
         this.roomCache[_roomName] = obj;
+    }
+    npcChangeRoom() {
+        let counter = 0;
+        for (let element of this.getNpcs()) {
+            if (element.smart === true) {
+                var randRoom = this.connections[Math.floor(Math.random() * this.connections.length)];
+                if (this.roomCache[randRoom.toLocaleLowerCase()] !== undefined) {
+                    this.roomCache[randRoom.toLocaleLowerCase()].npcs.push(element);
+                    this.npcs.splice(counter, 1);
+                }
+            }
+            counter++;
+        }
+    }
+    removeItem(_itemToRemove) {
+        let counter = 0;
+        for (let element of this.getItems()) {
+            if (element.name.toLowerCase() == _itemToRemove) {
+                this.items.splice(counter, 1);
+            }
+            counter++;
+        }
+    }
+    killNpc(_name) {
+        let counter = 0;
+        for (let element of this.getNpcs()) {
+            if (element.name.toLowerCase() == _name) {
+                this.npcs.splice(counter, 1);
+            }
+            counter++;
+        }
+    }
+    getNpcs() {
+        return this.npcs;
+    }
+    getConnections() {
+        return this.connections;
+    }
+    getRoomDescrtiption() {
+        return this.roomDescription;
+    }
+    getItems() {
+        return this.items;
+    }
+    addItem(_item) {
+        this.items.push(_item);
     }
 }
 //# sourceMappingURL=Scene.js.map
