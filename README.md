@@ -1,4 +1,4 @@
-# TextAdvanture  
+# TextAdventure  
 Zum Ausführen, bitte in VS Code öffnen und einen Live Server starten (./display/index.html).  
 
 # Commands  
